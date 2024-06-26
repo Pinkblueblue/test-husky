@@ -1,0 +1,16 @@
+{
+	"name": "test-husky",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"prepare": "cd ../../../ && husky install src/main/webapp/.husky",
+		"test": "echo 'test husky'"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"husky": "^8"
+	}
+}
