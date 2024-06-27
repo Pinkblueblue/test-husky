@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
 		"prepare": "cd ../../../ && husky install src/main/webapp/.husky",
 		"test": "echo 'test husky'"
@@ -12,5 +13,9 @@
 	"license": "ISC",
 	"devDependencies": {
 		"husky": "^8"
+	},
+	"dependencies": {
+		"chalk": "^5.3.0",
+		"inquirer": "^8.2.6"
 	}
 }

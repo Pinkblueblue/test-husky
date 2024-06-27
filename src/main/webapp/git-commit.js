@@ -1,11 +1,18 @@
 import inquirer from "inquirer";
 import { exec } from "child_process";
+import chalk from "chalk";
+
+let index = 1;
 /**
  * 1. commit type
  * 2. check your jira number
  * 3. if the jira number is wrong, input you jira number:(like: C171405-6765)
  * 4. input your commit message
  * 5. confirm your whole commit message, enter  or update
+ *
+ * 这个应该要强制，用方括号包起来，来获取jira号，
+ * 获取git branch中的jira号，如果用户确认了jira号，那就用等号做判断
+ * 如果用户手输了jira号，就用branch name includes来判断
  */
 const getCommitType = () => {
 	return new Promise(async (resolve, reject) => {
@@ -14,13 +21,14 @@ const getCommitType = () => {
 				{
 					type: "list",
 					name: "type",
-					message: "select commit type in message",
+					message: "select commit type in message:",
 					choices: ["fix", "test", "config", "feat"],
 					default: "fix",
+					prefix: index++ + ")",
 				},
 			])
 			.then((res) => {
-				console.log(res);
+				// console.log(res.type);
 				resolve(res.type);
 			});
 	});
@@ -37,12 +45,13 @@ const checkJiraNumber = async (jiraNumber) => {
 				{
 					type: "confirm",
 					name: "isRight",
-					message: `Is your jira number [${jiraNumber}]?`,
+					message: `Is your jira number [${chalk.green(jiraNumber)}]?`,
 					default: true,
+					prefix: index++ + ")",
 				},
 			])
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				resolve(res.isRight);
 			});
 	});
@@ -55,7 +64,7 @@ const inputJiraNumber = async () => {
 				{
 					type: "input",
 					name: "jiraNumber",
-					message: `Please input you jira number: `,
+					message: `Please input you jira number:`,
 					validate: (value) => {
 						if (!value.trim()) {
 							return "jira number not be empty!";
@@ -64,10 +73,11 @@ const inputJiraNumber = async () => {
 						}
 						return true;
 					},
+					prefix: index++ + ")",
 				},
 			])
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				resolve(res.jiraNumber);
 			})
 			.catch(() => {
@@ -91,10 +101,11 @@ const inputMessage = () => {
 						}
 						return true;
 					},
+					prefix: index++ + ")",
 				},
 			])
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				resolve(res.message);
 			});
 	});
@@ -107,12 +118,13 @@ const confirmMessage = (message) => {
 				{
 					type: "confirm",
 					name: "isMessageOk",
-					message: `The hole message is ${message}, is it ok? `,
+					message: `The whole message is '${chalk.green(message)}', is it ok?`,
 					default: true,
+					prefix: index++ + ")",
 				},
 			])
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				resolve(res.isMessageOk);
 			});
 	});
@@ -125,7 +137,7 @@ const editMessage = (wholeMessage) => {
 				{
 					type: "editor",
 					name: "updateMessage",
-					message: `Please press Enter to edit the commit message (Press Enter) `,
+					message: `Let's edit the commit message:`,
 					default: wholeMessage,
 					validate: (value) => {
 						if (!value.trim()) {
@@ -133,10 +145,11 @@ const editMessage = (wholeMessage) => {
 						}
 						return true;
 					},
+					prefix: index++ + ")",
 				},
 			])
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 				resolve(res.updateMessage);
 			});
 	});
@@ -164,16 +177,10 @@ async function gitCommit() {
 	}
 }
 
-// gitCommit();
-
 function execGitCommit(wholeMessage) {
-	console.log(`exec "git commit -m '${wholeMessage}'"`);
-	console.log(wholeMessage);
-
-	// wholeMessage = wholeMessage.replace(/"/g, "");
+	console.log("\n\n", chalk.blue("RUN >>"), chalk.green(`git commit -m '${wholeMessage}'`, "\n\n"));
 	const command = `git commit -m "${wholeMessage.replace(/"/g, "")}"`;
 	exec(command, (err, stdout, stderr) => {
-		console.log(err, stdout, stderr);
 		if (err) {
 			console.error(err);
 			return;
@@ -186,4 +193,4 @@ function execGitCommit(wholeMessage) {
 	});
 }
 
-execGitCommit(`"test"`);
+gitCommit();
