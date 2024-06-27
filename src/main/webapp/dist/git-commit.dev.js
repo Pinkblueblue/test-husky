@@ -49,7 +49,7 @@ var getCommitType = function getCommitType() {
 };
 
 var getJiraNumber = function getJiraNumber() {
-  return Promise.resolve("C171405B-2323");
+  return Promise.resolve("C99999");
 };
 
 var checkJiraNumber = function checkJiraNumber(jiraNumber) {

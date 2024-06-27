@@ -35,7 +35,7 @@ const getCommitType = () => {
 };
 
 const getJiraNumber = () => {
-	return Promise.resolve("C171405B-2323");
+	return Promise.resolve("C99999");
 };
 
 const checkJiraNumber = async (jiraNumber) => {
