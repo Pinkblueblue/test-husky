@@ -178,7 +178,7 @@ async function gitCommit() {
 }
 
 function execGitCommit(wholeMessage) {
-	console.log("\n\n", chalk.blue("RUN >>"), chalk.green(`git commit -m '${wholeMessage}'`, "\n\n"));
+	console.log("\n\n", chalk.blue("RUN >>"), chalk.green(`git commit -m '${wholeMessage}'`), "\n\n");
 	const command = `git commit -m "${wholeMessage.replace(/"/g, "")}"`;
 	exec(command, (err, stdout, stderr) => {
 		if (err) {

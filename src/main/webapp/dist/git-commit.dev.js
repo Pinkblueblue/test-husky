@@ -305,7 +305,7 @@ function gitCommit() {
 }
 
 function execGitCommit(wholeMessage) {
-  console.log("\n\n", _chalk["default"].blue("RUN >>"), _chalk["default"].green("git commit -m '".concat(wholeMessage, "'"), "\n\n"));
+  console.log("\n\n", _chalk["default"].blue("RUN >>"), _chalk["default"].green("git commit -m '".concat(wholeMessage, "'")), "\n\n");
   var command = "git commit -m \"".concat(wholeMessage.replace(/"/g, ""), "\"");
   (0, _child_process.exec)(command, function (err, stdout, stderr) {
     if (err) {
